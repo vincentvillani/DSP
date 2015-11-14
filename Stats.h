@@ -12,44 +12,21 @@
 #include <cmath>
 #include <cstdint>
 
-
-template<typename T>
-T Mean(T* data, uint32_t length);
-
-template<typename T>
-T StandardDeviation(T* data, uint length);
+#include "Histogram.h"
+#include "RunningStats.h"
 
 
-
-template<typename T>
-T Mean(T* data, uint32_t length)
-{
-	T result = 0;
-
-	for(uint32_t i = 0; i < length; ++i)
-	{
-		result += data[i];
-	}
-
-	return result / length;
-}
+float Mean(const float* data, uint32_t length);
+float Mean(const Histogram* histogram);
+float Mean(const RunningStats* runningStat);
 
 
-template<typename T>
-T StandardDeviation(T* data, uint32_t length)
-{
-	T result = 0;
-	T average = Mean(data, length);
+float StandardDeviation(const float* data, uint length);
+float StandardDeviation(const Histogram* histogram);
+float StandardDeviation(const RunningStats* runningStat);
 
-	for(uint32_t i = 0; i < length; ++i)
-	{
-		result += pow(data[i] - average, 2);
-	}
 
-	result /= (length - 1);
-
-	return sqrt(result);
-}
+float* ProbabilityMassFunction(const Histogram* histogram);
 
 
 #endif /* STATS_H_ */
