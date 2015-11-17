@@ -37,6 +37,7 @@ Histogram::Histogram(uint32_t binNum, float* data, uint32_t dataLength)
 	//Start constructing the histogram
 	this->binNum = binNum;
 	this->dataSampleNum = dataLength;
+	this->bucketDistance = fabs(dataMax - dataMin);
 
 	//Set the histogram values to zero
 	this->bins = new uint32_t[binNum];
@@ -62,6 +63,7 @@ Histogram::Histogram(uint32_t binNum, float dataMin, float dataMax, float* data,
 {
 	this->binNum = binNum;
 	this->dataSampleNum = dataLength;
+	this->bucketDistance = fabs(dataMax - dataMin);
 
 	//Set the histogram values to zero
 	this->bins = new uint32_t[binNum];

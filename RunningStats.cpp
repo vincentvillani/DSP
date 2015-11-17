@@ -20,20 +20,30 @@ RunningStats::RunningStats()
 }
 
 
+RunningStats::RunningStats(float* data, uint32_t dataLength)
+{
+	length = 0;
+	sumOfSquares = 0;
+	sum = 0;
+
+	update(data, dataLength);
+}
+
+
 RunningStats::~RunningStats()
 {
 
 }
 
 
-void RunningStats::update(float* data, uint32_t length)
+void RunningStats::update(float* data, uint32_t dataLength)
 {
-	this->length += length;
+	this->length += dataLength;
 
-	for(uint32_t i = 0; i < length; ++i)
+	for(uint32_t i = 0; i < dataLength; ++i)
 	{
 		sum += data[i];
-		sumOfSquares += pow(data[i], 2);
+		sumOfSquares += powf(data[i], 2.0f);
 	}
 }
 

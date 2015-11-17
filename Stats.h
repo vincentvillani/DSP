@@ -21,7 +21,7 @@ float Mean(const Histogram* histogram);
 float Mean(const RunningStats* runningStat);
 
 
-float StandardDeviation(const float* data, uint length);
+float StandardDeviation(const float* data, uint32_t length);
 float StandardDeviation(const Histogram* histogram);
 float StandardDeviation(const RunningStats* runningStat);
 

@@ -21,10 +21,11 @@ private:
 public:
 
 	uint32_t length;
-	uint32_t sumOfSquares;
-	uint32_t sum;
+	float sumOfSquares;
+	float sum;
 
 	RunningStats();
+	RunningStats(float* data, uint32_t dataLength);
 	virtual ~RunningStats();
 
 	void update(float* data, uint32_t length);

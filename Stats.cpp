@@ -28,10 +28,10 @@ float Mean(const Histogram* histogram)
 
 	for(uint32_t i = 0; i < histogram->binNum; ++i)
 	{
-		result += i * histogram->bins[i];
+		result += i * histogram->bins[i]; //
 	}
 
-	result *= 1.0f / histogram->binNum;
+	result *= (1.0f / histogram->dataSampleNum);
 
 	return result;
 }
