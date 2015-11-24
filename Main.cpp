@@ -9,6 +9,7 @@
 #include "Stats.h"
 #include "SignalUtility.h"
 #include "Noise.h"
+#include "UnitTests.h"
 
 //TODO: Rethink histogram, its kinda fucked...
 //TODO: Add signal class - Holds number of samples & the samples?
@@ -18,6 +19,9 @@
 
 int main()
 {
+	RunAllUnitTests();
+
+	/*
 	float* distribution = NormalDistribution(DATA_LENGTH, 1.5f, 0.25f, 2);
 
 	RunningStats* runningStats = new RunningStats(distribution, DATA_LENGTH);
@@ -31,6 +35,8 @@ int main()
 
 	std::cout << "Mean: " << Mean(distribution, DATA_LENGTH) << std::endl;
 	std::cout << "StdDev: " << StandardDeviation(distribution, DATA_LENGTH) << std::endl;
+
+	*/
 
 	/*
 

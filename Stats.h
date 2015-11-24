@@ -12,16 +12,17 @@
 #include <cmath>
 #include <cstdint>
 
+#include "Signal.h"
 #include "Histogram.h"
 #include "RunningStats.h"
 
 
-float Mean(const float* data, uint32_t length);
+float Mean(const Signal* signal);
 float Mean(const Histogram* histogram);
 float Mean(const RunningStats* runningStat);
 
 
-float StandardDeviation(const float* data, uint32_t length);
+float StandardDeviation(const Signal* signal);
 float StandardDeviation(const Histogram* histogram);
 float StandardDeviation(const RunningStats* runningStat);
 
