@@ -12,8 +12,7 @@
 #include "UnitTests.h"
 
 //TODO: Rethink histogram, its kinda fucked...
-//TODO: Write a test for the DFT convolution (use the one in the book) 32 sample input signal (sin(2pi*3)), ImX[3] should == 32? (PAGE 18)
-//TODO: Write the inverse convolution code and a test for it
+//TODO: Add the ability to 'Unwrap the phase' (Chapter 8)
 
 
 #define DATA_LENGTH 100000
