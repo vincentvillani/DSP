@@ -23,6 +23,11 @@ public:
 
 	uint32_t sampleLength;
 	float* samples;
+
+
+	//DEBUG
+	void print();
+
 };
 
 #endif /* SIGNAL_H_ */

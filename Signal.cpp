@@ -6,7 +6,9 @@
  */
 
 #include "Signal.h"
+
 #include <cstring>
+#include <iostream>
 
 /*
 Signal::Signal()
@@ -46,4 +48,15 @@ void Signal::update(float* data, uint32_t dataLength)
 
 	this->samples = newData;
 	this->sampleLength = newSampleLength;
+}
+
+
+void Signal::print()
+{
+	for(uint32_t i = 0; i < sampleLength; ++i)
+	{
+		std::cout << "[" << i << "]: " << samples[i] << std::endl;
+	}
+
+	std::cout << std::endl << std::endl;
 }

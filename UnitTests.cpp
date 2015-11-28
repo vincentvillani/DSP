@@ -9,6 +9,7 @@
 
 #include "UnitTests.h"
 #include "SignalUnitTests.h"
+#include "DFTUnitTests.h"
 
 
 void RunAllUnitTests()
@@ -16,6 +17,9 @@ void RunAllUnitTests()
 	//Signal unit tests
 	Signal_UpdateUnitTest();
 	Signal_ConvolutionUnitTest();
+
+	//DFT unit tests
+	DFTCorrelationUnitTest();
 
 	std::cout << "All tests passed!" << std::endl;
 }
