@@ -8,6 +8,14 @@
 #include "Signal.h"
 #include <cstring>
 
+/*
+Signal::Signal()
+{
+	sampleLength = 0;
+	samples = NULL;
+}
+*/
+
 Signal::Signal(float* data, uint32_t dataLength)
 {
 	sampleLength = dataLength;
@@ -17,7 +25,8 @@ Signal::Signal(float* data, uint32_t dataLength)
 
 Signal::~Signal()
 {
-	delete[] samples;
+	if(samples != NULL)
+		delete[] samples;
 }
 
 

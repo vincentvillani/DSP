@@ -14,6 +14,7 @@ class Signal
 {
 
 public:
+	//Signal();
 	Signal(float* data, uint32_t dataLength);
 	virtual ~Signal();
 
