@@ -20,6 +20,8 @@ void RunAllUnitTests()
 
 	//DFT unit tests
 	DFTCorrelationUnitTest();
+	DFTCorrelationRoundTripTest();
+	DFTCorrelationRoundTripTestWithPolarCoords();
 
 	std::cout << "All tests passed!" << std::endl;
 }

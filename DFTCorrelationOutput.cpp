@@ -13,7 +13,16 @@ DFTCorrelationOutput::DFTCorrelationOutput()
 {
 	realSignal = NULL;
 	imaginarySignal = NULL;
+	type = RECTANGULAR;
 }
+
+DFTCorrelationOutput::DFTCorrelationOutput(Signal* real, Signal* imaginary, DFTOutputDataType dataType)
+{
+	realSignal = real;
+	imaginarySignal = imaginary;
+	type = dataType;
+}
+
 
 DFTCorrelationOutput::~DFTCorrelationOutput()
 {

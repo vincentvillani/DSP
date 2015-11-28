@@ -10,15 +10,24 @@
 
 #include "Signal.h"
 
+enum DFTOutputDataType
+{
+	RECTANGULAR,
+	POLAR
+};
+
 class DFTCorrelationOutput
 {
 public:
 	DFTCorrelationOutput();
-	DFTCorrelationOutput(Signal* real, Signal* imaginary);
+	DFTCorrelationOutput(Signal* real, Signal* imaginary, DFTOutputDataType type);
 	virtual ~DFTCorrelationOutput();
 
+	//If type is polar coordinates, real = magnitude, imaginary = phase
 	Signal* realSignal;
 	Signal* imaginarySignal;
+	DFTOutputDataType type;
+
 };
 
 #endif /* DFTCORRELATIONOUTPUT_H_ */
