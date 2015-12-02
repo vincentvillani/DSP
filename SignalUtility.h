@@ -13,6 +13,13 @@
 #include "Stats.h"
 #include "Signal.h"
 
+Signal* SignalAmplify(const Signal* signal, float amplificationCoefficent);
+void SignalAmplifyInPlace(Signal* signal, float amplificationCoefficent);
+
+Signal* SignalAddition(const Signal* signal1, const Signal* signal2);
+void SignalAdditionInPlace(Signal* signalLHS, const Signal* signalRHS); //Add RHS to LHS
+
+
 float SignalToNoiseRatio(const Histogram* histogram);
 float SignalToNoiseRatio(const RunningStats* runningStat);
 
@@ -21,6 +28,7 @@ float CoefficientOfVariation(const Histogram* histogram);
 float CoefficientOfVariation(const RunningStats* runningStat);
 
 //Returns a convoluted signal that is fully immersed in the input signal (clips the start and end of the output)
+//CONVOLUTION IN THE TIME DOMAIN
 Signal* Convolution(Signal* inputSignal, Signal* impulseResponse);
 
 #endif /* SIGNALUTILITY_H_ */

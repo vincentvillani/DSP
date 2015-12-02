@@ -9,6 +9,7 @@
 
 #include <stdint.h>
 #include <cmath>
+#include <iostream>
 
 #define PI 3.14159265359f
 
@@ -79,3 +80,55 @@ void ConvertToRectangularCoordinates(DFTCorrelationOutput* dft)
 		dft->imaginarySignal->samples[i] = magTemp * sinf(phaseTemp);
 	}
 }
+
+
+
+void DFTOutputAmplifyInPlace(DFTCorrelationOutput* dft, float amplifcationCoefficent)
+{
+
+	uint32_t signalLength = dft->realSignal->sampleLength;
+
+	if(dft->type == POLAR)
+	{
+		for(uint32_t i = 0; i < signalLength; ++i)
+		{
+			//Only modify the magnitude values, phase stays unchanged
+			dft->realSignal->samples[i] *= amplifcationCoefficent;
+		}
+	}
+	else
+	{
+		for(uint32_t i = 0; i < signalLength; ++i)
+		{
+			dft->realSignal->samples[i] *= amplifcationCoefficent;
+			dft->imaginarySignal->samples[i] *= amplifcationCoefficent;
+		}
+	}
+}
+
+
+
+void DFTOutputAdditionInPlace(DFTCorrelationOutput* dftLHS, DFTCorrelationOutput* dftRHS)
+{
+	if(dftLHS->realSignal->sampleLength != dftRHS->realSignal->sampleLength)
+	{
+		std::cerr << "Tried to add two signals that are not the same length" << std::endl;
+		exit(1);
+	}
+
+	//Make sure both are in rectangular form before adding them together
+	if(dftLHS->type != RECTANGULAR || dftRHS->type != RECTANGULAR)
+	{
+		std::cerr << "Ensure Signals in the frequency domain are represented in rectangular form before being added" << std::endl;
+		exit(1);
+	}
+
+	uint32_t sampleLength = dftLHS->realSignal->sampleLength;
+
+	for(uint32_t i = 0; i < sampleLength; ++i)
+	{
+		dftLHS->realSignal->samples[i] += dftRHS->realSignal->samples[i];
+		dftLHS->imaginarySignal->samples[i] += dftRHS->imaginarySignal->samples[i];
+	}
+}
+

@@ -13,6 +13,9 @@
 void ConvertToPolarCoordinates(DFTCorrelationOutput* dft);
 void ConvertToRectangularCoordinates(DFTCorrelationOutput* dft);
 
+void DFTOutputAmplifyInPlace(DFTCorrelationOutput* dft, float amplifcationCoefficent);
+void DFTOutputAdditionInPlace(DFTCorrelationOutput* dftLHS, DFTCorrelationOutput* dftRHS);
+
 
 
 #endif /* DFTUTILITY_H_ */

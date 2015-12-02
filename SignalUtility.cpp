@@ -7,8 +7,74 @@
 
 
 #include "SignalUtility.h"
+
 #include <cstring>
 #include <iostream>
+#include <stdint.h>
+
+
+Signal* SignalAmplify(const Signal* signal, float amplificationCoefficent)
+{
+	uint32_t signalLength = signal->sampleLength;
+	Signal* result = new Signal(new float[signalLength], signalLength);
+
+	for(uint32_t i = 0; i < signalLength; ++i)
+	{
+		result->samples[i] = signal->samples[i] * amplificationCoefficent;
+	}
+
+	return result;
+}
+
+
+void SignalAmplifyInPlace(Signal* signal, float amplificationCoefficent)
+{
+	uint32_t signalLength = signal->sampleLength;
+
+	for(uint32_t i = 0; i < signalLength; ++i)
+	{
+		signal->samples[i] *= amplificationCoefficent;
+	}
+}
+
+
+Signal* SignalAddition(const Signal* signalLHS, const Signal* signalRHS)
+{
+	if(signalLHS->sampleLength != signalRHS->sampleLength)
+	{
+		std::cerr << "Tried to add two signals that are not the same length" << std::endl;
+		exit(1);
+	}
+
+	uint32_t signalLength = signalLHS->sampleLength;
+	Signal* result = new Signal(new float[signalLength], signalLength);
+
+	//Add the signals together
+	for(uint32_t i = 0 ; i < signalLength; ++i)
+	{
+		result->samples[i] = signalLHS->samples[i] + signalRHS->samples[i];
+	}
+
+	return result;
+}
+
+
+void SignalAdditionInPlace(Signal* signalLHS, const Signal* signalRHS) //Add RHS to LHS
+{
+	if(signalLHS->sampleLength != signalRHS->sampleLength)
+	{
+		std::cerr << "Tried to add two signals that are not the same length" << std::endl;
+		exit(1);
+	}
+
+	//Add the signals together
+	for(uint32_t i = 0 ; i < signalLHS->sampleLength; ++i)
+	{
+		signalLHS->samples[i] += signalRHS->samples[i];
+	}
+}
+
+
 
 float SignalToNoiseRatio(const Histogram* histogram)
 {
