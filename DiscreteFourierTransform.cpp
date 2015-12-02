@@ -9,7 +9,7 @@
 
 #include <cmath>
 
-#include "DFTUtility.h"
+#include "FrequencySignalUtility.h"
 
 #define PI 3.14159265359f
 
@@ -39,17 +39,13 @@ float* CosineBasisFunction(uint32_t signalLength, uint32_t frequency)
 }
 
 
-FrequencySignal* DFTCorrelation(Signal* inputSignal)
+FrequencySignal* DFTViaCorrelation(Signal* inputSignal)
 {
-
-	FrequencySignal* dftOutput = new FrequencySignal();
-
 	//Number of real and imaginary numbers each real and imaginary array will have
 	uint32_t outputValuesNum = (inputSignal->sampleLength / 2) + 1;
 
-	//Allocate space for the output arrays
-	dftOutput->realSignal = new Signal(new float[outputValuesNum], outputValuesNum);
-	dftOutput->imaginarySignal = new Signal(new float[outputValuesNum], outputValuesNum);
+	//Allocate enough space for the real and imaginary values
+	FrequencySignal* dftOutput = new FrequencySignal(new Signal(new float[outputValuesNum], outputValuesNum), new Signal(new float[outputValuesNum], outputValuesNum), RECTANGULAR);
 
 	float trigArgument;
 	//Calculate the DFT values
@@ -76,10 +72,10 @@ FrequencySignal* DFTCorrelation(Signal* inputSignal)
 }
 
 
-Signal* InverseDFTCorrelation(FrequencySignal* input)
+Signal* InverseDFTViaCorrelation(FrequencySignal* input)
 {
 	if(input->type == POLAR)
-		ConvertToRectangularCoordinates(input);
+		FrequencySignalConvertToRectangularCoordinates(input);
 
 	//Used to store the scaled values of ReX and ImX (the frequency domain of the signal)
 	//float ReXAmplitude, ImXAmplitude;

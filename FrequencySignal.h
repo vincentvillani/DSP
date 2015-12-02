@@ -19,7 +19,6 @@ enum DFTOutputDataType
 class FrequencySignal
 {
 public:
-	FrequencySignal();
 	FrequencySignal(Signal* real, Signal* imaginary, DFTOutputDataType type);
 	virtual ~FrequencySignal();
 

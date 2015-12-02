@@ -9,12 +9,6 @@
 
 #include <stddef.h>
 
-FrequencySignal::FrequencySignal()
-{
-	realSignal = NULL;
-	imaginarySignal = NULL;
-	type = RECTANGULAR;
-}
 
 FrequencySignal::FrequencySignal(Signal* real, Signal* imaginary, DFTOutputDataType dataType)
 {

@@ -50,3 +50,30 @@ Signal* TimeDomainConvolution(Signal* inputSignal, Signal* impulseResponse)
 
 }
 
+
+/*
+FrequencySignal* FrequencyDomainConvolution(FrequencySignal* inputDFT, FrequencySignal* impulseResponse)
+{
+
+	FrequencySignal* tempImpulseResponse = impulseResponse;
+	bool tempImpulseResponseUsed = false; //I don't want to change the passed in impulse response
+
+	//Ensure both the representations are the same, change the impulse response
+	if(inputDFT->type != impulseResponse->type)
+	{
+		tempImpulseResponseUsed = true;
+
+		if(inputDFT->type == RECTANGULAR)
+			tempImpulseResponse = FrequencySignalConvertToRectangularCoordinates(impulseResponse);
+		else
+			tempImpulseResponse = FrequencySignalConvertToPolarCoordinates(impulseResponse);
+	}
+
+
+	FrequencySignal* result = ;
+
+
+
+	return result;
+}
+*/

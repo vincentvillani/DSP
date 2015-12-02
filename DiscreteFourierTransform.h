@@ -17,8 +17,8 @@ float* SineBasisFunction(uint32_t signalLength, uint32_t frequency);
 float* CosineBasisFunction(uint32_t signalLength, uint32_t frequency);
 
 //Discrete Fourier Transform via Correlation
-FrequencySignal* DFTCorrelation(Signal* inputSignal);
-Signal* InverseDFTCorrelation(FrequencySignal* input);
+FrequencySignal* DFTViaCorrelation(Signal* inputSignal);
+Signal* InverseDFTViaCorrelation(FrequencySignal* input);
 
 
 #endif /* DISCRETEFOURIERTRANSFORM_H_ */

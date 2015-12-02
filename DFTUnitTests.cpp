@@ -14,7 +14,7 @@
 
 #include "Signal.h"
 #include "DiscreteFourierTransform.h"
-#include "DFTUtility.h"
+#include "FrequencySignalUtility.h"
 
 #define PI 3.14159265359f
 
@@ -32,7 +32,7 @@ void DFTCorrelationUnitTest()
 
 	Signal* inputSignal = new Signal(inputSignalData, sampleNum);
 
-	FrequencySignal* output = DFTCorrelation(inputSignal);
+	FrequencySignal* output = DFTViaCorrelation(inputSignal);
 
 	/*
 	std::cout << "------ Real signal ------" << std::endl;
@@ -98,10 +98,10 @@ void DFTCorrelationRoundTripTest()
 	Signal* inputSignal = new Signal(inputSignalData, sampleNum);
 
 	//Calculate the DFT
-	FrequencySignal* output = DFTCorrelation(inputSignal);
+	FrequencySignal* output = DFTViaCorrelation(inputSignal);
 
 	//Calculate the Inverse DFT
-	Signal* convertedInputSignal = InverseDFTCorrelation(output);
+	Signal* convertedInputSignal = InverseDFTViaCorrelation(output);
 
 	//Test to see if we got the same thing back
 	for(uint32_t i = 0; i < sampleNum; ++i)
@@ -131,12 +131,12 @@ void DFTCorrelationRoundTripTestWithPolarCoords()
 	Signal* inputSignal = new Signal(inputSignalData, sampleNum);
 
 	//Calculate the DFT
-	FrequencySignal* output = DFTCorrelation(inputSignal);
+	FrequencySignal* output = DFTViaCorrelation(inputSignal);
 
-	ConvertToPolarCoordinates(output);
+	FrequencySignalConvertToPolarCoordinates(output);
 
 	//Calculate the Inverse DFT
-	Signal* convertedInputSignal = InverseDFTCorrelation(output);
+	Signal* convertedInputSignal = InverseDFTViaCorrelation(output);
 
 	//Test to see if we got the same thing back
 	for(uint32_t i = 0; i < sampleNum; ++i)

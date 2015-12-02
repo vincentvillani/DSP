@@ -5,7 +5,7 @@
  *      Author: vincent
  */
 
-#include "DFTUtility.h"
+#include "FrequencySignalUtility.h"
 
 #include <stdint.h>
 #include <cmath>
@@ -13,7 +13,7 @@
 
 #define PI 3.14159265359f
 
-void ConvertToPolarCoordinates(FrequencySignal* dft)
+void FrequencySignalConvertToPolarCoordinates(FrequencySignal* dft)
 {
 	if(dft->type == POLAR)
 		return;
@@ -60,7 +60,7 @@ void ConvertToPolarCoordinates(FrequencySignal* dft)
 }
 
 
-void ConvertToRectangularCoordinates(FrequencySignal* dft)
+void FrequencySignalConvertToRectangularCoordinates(FrequencySignal* dft)
 {
 	if(dft->type == RECTANGULAR)
 		return;
@@ -83,7 +83,7 @@ void ConvertToRectangularCoordinates(FrequencySignal* dft)
 
 
 
-void DFTOutputAmplifyInPlace(FrequencySignal* dft, float amplifcationCoefficent)
+void FrequencySignalOutputAmplifyInPlace(FrequencySignal* dft, float amplifcationCoefficent)
 {
 
 	uint32_t signalLength = dft->realSignal->sampleLength;
@@ -108,7 +108,7 @@ void DFTOutputAmplifyInPlace(FrequencySignal* dft, float amplifcationCoefficent)
 
 
 
-void DFTOutputAdditionInPlace(FrequencySignal* dftLHS, FrequencySignal* dftRHS)
+void FrequencySignalOutputAdditionInPlace(FrequencySignal* dftLHS, FrequencySignal* dftRHS)
 {
 	if(dftLHS->realSignal->sampleLength != dftRHS->realSignal->sampleLength)
 	{

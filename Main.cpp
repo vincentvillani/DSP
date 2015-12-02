@@ -13,7 +13,9 @@
 
 //TODO: Rethink histogram, its kinda fucked...
 //TODO: Add the ability to 'Unwrap the phase' (Chapter 8)
-
+//TODO: Think about frequency domain convolution and the best way to go about it... (Chapter 9)
+//TODO: Think about breaking apart the two different types of representations of Frequency Signals
+//TODO: Implement the complex conjugate (Characteristics of the phase, Chapter 10)
 
 #define DATA_LENGTH 100000
 
