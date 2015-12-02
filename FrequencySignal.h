@@ -16,12 +16,12 @@ enum DFTOutputDataType
 	POLAR
 };
 
-class DFTCorrelationOutput
+class FrequencySignal
 {
 public:
-	DFTCorrelationOutput();
-	DFTCorrelationOutput(Signal* real, Signal* imaginary, DFTOutputDataType type);
-	virtual ~DFTCorrelationOutput();
+	FrequencySignal();
+	FrequencySignal(Signal* real, Signal* imaginary, DFTOutputDataType type);
+	virtual ~FrequencySignal();
 
 	//If type is polar coordinates, real = magnitude, imaginary = phase
 	Signal* realSignal;

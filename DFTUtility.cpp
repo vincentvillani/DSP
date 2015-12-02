@@ -13,7 +13,7 @@
 
 #define PI 3.14159265359f
 
-void ConvertToPolarCoordinates(DFTCorrelationOutput* dft)
+void ConvertToPolarCoordinates(FrequencySignal* dft)
 {
 	if(dft->type == POLAR)
 		return;
@@ -60,7 +60,7 @@ void ConvertToPolarCoordinates(DFTCorrelationOutput* dft)
 }
 
 
-void ConvertToRectangularCoordinates(DFTCorrelationOutput* dft)
+void ConvertToRectangularCoordinates(FrequencySignal* dft)
 {
 	if(dft->type == RECTANGULAR)
 		return;
@@ -83,7 +83,7 @@ void ConvertToRectangularCoordinates(DFTCorrelationOutput* dft)
 
 
 
-void DFTOutputAmplifyInPlace(DFTCorrelationOutput* dft, float amplifcationCoefficent)
+void DFTOutputAmplifyInPlace(FrequencySignal* dft, float amplifcationCoefficent)
 {
 
 	uint32_t signalLength = dft->realSignal->sampleLength;
@@ -108,7 +108,7 @@ void DFTOutputAmplifyInPlace(DFTCorrelationOutput* dft, float amplifcationCoeffi
 
 
 
-void DFTOutputAdditionInPlace(DFTCorrelationOutput* dftLHS, DFTCorrelationOutput* dftRHS)
+void DFTOutputAdditionInPlace(FrequencySignal* dftLHS, FrequencySignal* dftRHS)
 {
 	if(dftLHS->realSignal->sampleLength != dftRHS->realSignal->sampleLength)
 	{

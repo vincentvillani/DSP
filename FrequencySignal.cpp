@@ -5,18 +5,18 @@
  *      Author: vincentvillani
  */
 
-#include "DFTCorrelationOutput.h"
+#include "FrequencySignal.h"
 
 #include <stddef.h>
 
-DFTCorrelationOutput::DFTCorrelationOutput()
+FrequencySignal::FrequencySignal()
 {
 	realSignal = NULL;
 	imaginarySignal = NULL;
 	type = RECTANGULAR;
 }
 
-DFTCorrelationOutput::DFTCorrelationOutput(Signal* real, Signal* imaginary, DFTOutputDataType dataType)
+FrequencySignal::FrequencySignal(Signal* real, Signal* imaginary, DFTOutputDataType dataType)
 {
 	realSignal = real;
 	imaginarySignal = imaginary;
@@ -24,7 +24,7 @@ DFTCorrelationOutput::DFTCorrelationOutput(Signal* real, Signal* imaginary, DFTO
 }
 
 
-DFTCorrelationOutput::~DFTCorrelationOutput()
+FrequencySignal::~FrequencySignal()
 {
 	if(realSignal != NULL)
 	{

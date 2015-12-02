@@ -32,7 +32,7 @@ void DFTCorrelationUnitTest()
 
 	Signal* inputSignal = new Signal(inputSignalData, sampleNum);
 
-	DFTCorrelationOutput* output = DFTCorrelation(inputSignal);
+	FrequencySignal* output = DFTCorrelation(inputSignal);
 
 	/*
 	std::cout << "------ Real signal ------" << std::endl;
@@ -98,7 +98,7 @@ void DFTCorrelationRoundTripTest()
 	Signal* inputSignal = new Signal(inputSignalData, sampleNum);
 
 	//Calculate the DFT
-	DFTCorrelationOutput* output = DFTCorrelation(inputSignal);
+	FrequencySignal* output = DFTCorrelation(inputSignal);
 
 	//Calculate the Inverse DFT
 	Signal* convertedInputSignal = InverseDFTCorrelation(output);
@@ -131,7 +131,7 @@ void DFTCorrelationRoundTripTestWithPolarCoords()
 	Signal* inputSignal = new Signal(inputSignalData, sampleNum);
 
 	//Calculate the DFT
-	DFTCorrelationOutput* output = DFTCorrelation(inputSignal);
+	FrequencySignal* output = DFTCorrelation(inputSignal);
 
 	ConvertToPolarCoordinates(output);
 

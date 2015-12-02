@@ -39,10 +39,10 @@ float* CosineBasisFunction(uint32_t signalLength, uint32_t frequency)
 }
 
 
-DFTCorrelationOutput* DFTCorrelation(Signal* inputSignal)
+FrequencySignal* DFTCorrelation(Signal* inputSignal)
 {
 
-	DFTCorrelationOutput* dftOutput = new DFTCorrelationOutput();
+	FrequencySignal* dftOutput = new FrequencySignal();
 
 	//Number of real and imaginary numbers each real and imaginary array will have
 	uint32_t outputValuesNum = (inputSignal->sampleLength / 2) + 1;
@@ -76,7 +76,7 @@ DFTCorrelationOutput* DFTCorrelation(Signal* inputSignal)
 }
 
 
-Signal* InverseDFTCorrelation(DFTCorrelationOutput* input)
+Signal* InverseDFTCorrelation(FrequencySignal* input)
 {
 	if(input->type == POLAR)
 		ConvertToRectangularCoordinates(input);

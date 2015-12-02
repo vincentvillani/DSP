@@ -8,13 +8,13 @@
 #ifndef DFTUTILITY_H_
 #define DFTUTILITY_H_
 
-#include "DFTCorrelationOutput.h"
+#include "FrequencySignal.h"
 
-void ConvertToPolarCoordinates(DFTCorrelationOutput* dft);
-void ConvertToRectangularCoordinates(DFTCorrelationOutput* dft);
+void ConvertToPolarCoordinates(FrequencySignal* dft);
+void ConvertToRectangularCoordinates(FrequencySignal* dft);
 
-void DFTOutputAmplifyInPlace(DFTCorrelationOutput* dft, float amplifcationCoefficent);
-void DFTOutputAdditionInPlace(DFTCorrelationOutput* dftLHS, DFTCorrelationOutput* dftRHS);
+void DFTOutputAmplifyInPlace(FrequencySignal* dft, float amplifcationCoefficent);
+void DFTOutputAdditionInPlace(FrequencySignal* dftLHS, FrequencySignal* dftRHS);
 
 
 
