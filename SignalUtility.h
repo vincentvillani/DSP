@@ -27,8 +27,4 @@ float SignalToNoiseRatio(const RunningStats* runningStat);
 float CoefficientOfVariation(const Histogram* histogram);
 float CoefficientOfVariation(const RunningStats* runningStat);
 
-//Returns a convoluted signal that is fully immersed in the input signal (clips the start and end of the output)
-//CONVOLUTION IN THE TIME DOMAIN
-Signal* Convolution(Signal* inputSignal, Signal* impulseResponse);
-
 #endif /* SIGNALUTILITY_H_ */

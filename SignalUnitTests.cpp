@@ -8,9 +8,11 @@
 
 
 #include "SignalUnitTests.h"
+
 #include <cassert>
 #include <iostream>
 
+#include "Convolution.h"
 
 void Signal_PrintSignal(Signal* signal)
 {
@@ -82,7 +84,7 @@ void Signal_ConvolutionUnitTest()
 	Signal* inputSignal = new Signal(inputSamples, inputLength);
 	Signal* impulseSignal = new Signal(impulseSamples, impulseLength);
 
-	Signal* convolutionSignal = Convolution(inputSignal, impulseSignal);
+	Signal* convolutionSignal = TimeDomainConvolution(inputSignal, impulseSignal);
 
 	//Signal_PrintSignal(convolutionSignal);
 
