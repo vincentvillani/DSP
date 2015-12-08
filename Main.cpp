@@ -6,10 +6,12 @@
  */
 
 #include <iostream>
+
 #include "Stats.h"
 #include "SignalUtility.h"
 #include "Noise.h"
 #include "UnitTests.h"
+#include "Filters.h"
 
 //TODO: Rethink histogram, its kinda fucked...
 //TODO: Add the ability to 'Unwrap the phase' (Chapter 8)
@@ -21,7 +23,17 @@
 
 int main()
 {
-	RunAllUnitTests();
+
+	Signal* testSignal = GenerateBlackmanWindowedSincLowPassFilter(500, 0.015f);
+	GraphSignal(testSignal);
+
+	delete testSignal;
+
+
+
+
+
+	//RunAllUnitTests();
 
 	/*
 	float* distribution = NormalDistribution(DATA_LENGTH, 1.5f, 0.25f, 2);

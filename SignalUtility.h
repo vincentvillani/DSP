@@ -13,6 +13,12 @@
 #include "Stats.h"
 #include "Signal.h"
 
+#include <string>
+
+void WriteSignalToTextFile(const std::string filename, const Signal* signal);
+
+void GraphSignal(const Signal* signal);
+
 Signal* SignalAmplify(const Signal* signal, float amplificationCoefficent);
 void SignalAmplifyInPlace(Signal* signal, float amplificationCoefficent);
 

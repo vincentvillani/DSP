@@ -14,5 +14,7 @@
 
 Signal* GenerateMovingAverageFilter(uint32_t length);
 
+Signal* GenerateBlackmanWindowedSincLowPassFilter(uint32_t length, float cutoffFrequency);
+
 
 #endif /* FILTERS_H_ */

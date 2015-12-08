@@ -13,6 +13,46 @@
 #include <stdint.h>
 
 
+void WriteSignalToTextFile(const std::string filename, const Signal* signal)
+{
+	FILE* signalFile = fopen(filename.c_str(), "w");
+
+	if(signalFile == NULL)
+		return;
+
+	uint32_t i = 0;
+
+	for(; i < signal->sampleLength - 1; ++i)
+	{
+		fprintf(signalFile, "%u %f\n", i, signal->samples[i]);
+	}
+
+	//print last line to the text file without the newline
+	fprintf(signalFile, "%u %f", i, signal->samples[i]);
+
+
+	fclose(signalFile);
+}
+
+
+void GraphSignal(const Signal* signal)
+{
+	WriteSignalToTextFile("TempGraphFile.txt", signal);
+
+	FILE* gnuplot;
+	gnuplot = popen("gnuplot -persist", "w");
+	if (gnuplot == NULL)
+		return;
+
+	fprintf(gnuplot, "set xrange[0 : %u]\n", signal->sampleLength);
+	fprintf(gnuplot, "set offset graph 0.05, 0.05, 0.10, 0.10\n");
+	fprintf(gnuplot, "set samples %u\n", signal->sampleLength);
+	fprintf(gnuplot, "plot \"%s\" with points pointtype 5  notitle\n", "TempGraphFile.txt");
+
+	//fprintf(gnuplot, "plot \"%s\" with impulses lw 2 notitle, \"%s\" with points pointtype 5  notitle\n ", "TempGraphFile.txt", "TempGraphFile.txt");
+}
+
+
 Signal* SignalAmplify(const Signal* signal, float amplificationCoefficent)
 {
 	uint32_t signalLength = signal->sampleLength;
