@@ -27,4 +27,10 @@ float SignalToNoiseRatio(const RunningStats* runningStat);
 float CoefficientOfVariation(const Histogram* histogram);
 float CoefficientOfVariation(const RunningStats* runningStat);
 
+Signal* SignalIntegrate(Signal* passedSignal);
+void SignalIntegrateInPlace(Signal* passedSignal);
+
+Signal* SignalDerivative(Signal* passedSignal);
+void SignalDerivativeInPlace(Signal* passedSignal);
+
 #endif /* SIGNALUTILITY_H_ */

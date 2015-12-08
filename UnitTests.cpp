@@ -17,6 +17,9 @@ void RunAllUnitTests()
 	//Signal unit tests
 	Signal_UpdateUnitTest();
 	Signal_ConvolutionUnitTest();
+	Signal_IntegrationUnitTest();
+	Signal_DerivativeUnitTest();
+	Signal_IntegrationAndDerivativeRoundTripUnitTest();
 
 	//DFT unit tests
 	DFTCorrelationUnitTest();

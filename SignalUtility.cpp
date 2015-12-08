@@ -102,4 +102,64 @@ float CoefficientOfVariation(const RunningStats* runningStat)
 
 
 
+Signal* SignalIntegrate(Signal* passedSignal)
+{
+
+	uint32_t signalLength = passedSignal->sampleLength;
+	Signal* result = new Signal(new float[signalLength], signalLength);
+
+
+	//Do the first sample
+	result->samples[0] = passedSignal->samples[0];
+
+	//Integrate the remaining samples
+	for(uint32_t i = 1; i < signalLength; ++i)
+	{
+		result->samples[i] = result->samples[i - 1] + passedSignal->samples[i];
+	}
+
+	return result;
+}
+
+
+void SignalIntegrateInPlace(Signal* passedSignal)
+{
+	uint32_t signalLength = passedSignal->sampleLength;
+
+	//Integrate along the signal
+	for(uint32_t i = 1; i < signalLength; ++i)
+	{
+		passedSignal->samples[i] += passedSignal->samples[i - 1];
+	}
+}
+
+
+Signal* SignalDerivative(Signal* passedSignal)
+{
+	uint32_t signalLength = passedSignal->sampleLength;
+	Signal* result = new Signal(new float[signalLength], signalLength);
+
+	//Derive the signal, from the end working backwards, stop at index 0
+	for(uint32_t i = 1; i < signalLength; ++i)
+	{
+		result->samples[i] = passedSignal->samples[i] - passedSignal->samples[i - 1];
+	}
+
+	return result;
+
+}
+
+
+void SignalDerivativeInPlace(Signal* passedSignal)
+{
+	uint32_t signalLength = passedSignal->sampleLength;
+
+	//Derive the signal, from the end working backwards, stop at index 0
+	//This has to be done to stop overwriting data we need as we do the calculations
+	for(uint32_t i = signalLength - 1; i > 0; --i)
+	{
+		passedSignal->samples[i] = passedSignal->samples[i] - passedSignal->samples[i - 1];
+	}
+}
+
 

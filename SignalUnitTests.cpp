@@ -98,3 +98,69 @@ void Signal_ConvolutionUnitTest()
 	delete convolutionSignal;
 
 }
+
+
+void Signal_IntegrationUnitTest()
+{
+	Signal* signal = new Signal(new float[5], 5);
+
+	for(uint32_t i = 0; i < 5; ++i)
+	{
+		signal->samples[i] = 5;
+	}
+
+	Signal* result = SignalIntegrate(signal);
+
+	assert(result->samples[0] - 5.0f < 0.000001f);
+	assert(result->samples[1] - 10.0f < 0.000001f);
+	assert(result->samples[2] - 15.0f < 0.000001f);
+	assert(result->samples[3] - 20.0f < 0.000001f);
+	assert(result->samples[4] - 25.0f < 0.000001f);
+
+	delete signal;
+	delete result;
+}
+
+
+void Signal_DerivativeUnitTest()
+{
+	Signal* signal = new Signal(new float[5], 5);
+
+	for(uint32_t i = 0; i < 5; ++i)
+	{
+		signal->samples[i] = 5;
+	}
+
+	Signal* result = SignalDerivative(signal);
+
+	for(uint32_t i = 0; i < 5; ++i)
+	{
+		assert(result->samples[i] < 0.000001f);
+	}
+
+	delete signal;
+	delete result;
+}
+
+
+void Signal_IntegrationAndDerivativeRoundTripUnitTest()
+{
+	Signal* signal = new Signal(new float[5], 5);
+
+	for(uint32_t i = 0; i < 5; ++i)
+	{
+		signal->samples[i] = 5;
+	}
+
+	SignalIntegrateInPlace(signal);
+	SignalDerivativeInPlace(signal);
+
+	for(uint32_t i = 0; i < 5; ++i)
+	{
+		assert(signal->samples[i] - 5.0f < 0.000001f);
+	}
+
+	delete signal;
+
+}
+

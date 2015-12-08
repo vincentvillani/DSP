@@ -15,6 +15,10 @@ void Signal_PrintSignal(Signal* signal);
 void Signal_UpdateUnitTest();
 void Signal_ConvolutionUnitTest();
 
+void Signal_IntegrationUnitTest();
+void Signal_DerivativeUnitTest();
+void Signal_IntegrationAndDerivativeRoundTripUnitTest();
+
 
 
 #endif /* SIGNALUNITTESTS_H_ */
