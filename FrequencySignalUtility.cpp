@@ -10,8 +10,130 @@
 #include <stdint.h>
 #include <cmath>
 #include <iostream>
+#include <cstring>
 
 #define PI 3.14159265359f
+
+
+static uint32_t tempFreqSignalNumber = 0;
+
+
+FrequencySignal* FrequencySignalDeepCopy(FrequencySignal* frequencySignal)
+{
+	uint32_t signalLength = frequencySignal->realSignal->sampleLength;
+
+	FrequencySignal* result = new FrequencySignal(new Signal(new float[signalLength], signalLength), new Signal(new float[signalLength], signalLength), frequencySignal->type);
+
+	//Copy the values across
+	memcpy(result->realSignal->samples, frequencySignal->realSignal->samples, sizeof(float) * signalLength);
+	memcpy(result->imaginarySignal->samples, frequencySignal->imaginarySignal->samples, sizeof(float) * signalLength);
+
+	return result;
+}
+
+
+void FrequencySignalWriteToTextFile(const std::string filename, const FrequencySignal* frequencySignal)
+{
+	FILE* signalFile = fopen(filename.c_str(), "w");
+
+	if(signalFile == NULL)
+		return;
+
+
+	//Calculate the number of samples taken in the signal
+	float doubleFrequencySamples = frequencySignal->realSignal->sampleLength * 2.0f;
+	float frequencyValue;
+
+	uint32_t i = 0;
+
+	for(; i < frequencySignal->realSignal->sampleLength - 1; ++i)
+	{
+		frequencyValue = i / doubleFrequencySamples;
+		fprintf(signalFile, "%f %f %f\n", frequencyValue, frequencySignal->realSignal->samples[i], frequencySignal->imaginarySignal->samples[i]);
+	}
+
+	//print last line to the text file without the newline
+	frequencyValue = i / doubleFrequencySamples;
+	fprintf(signalFile, "%f %f %f\n", frequencyValue, frequencySignal->realSignal->samples[i], frequencySignal->imaginarySignal->samples[i]);
+
+
+	fclose(signalFile);
+}
+
+
+
+void FrequencySignalGraphAmplitude(FrequencySignal* frequencySignal)
+{
+	FrequencySignal* signalCopy = frequencySignal;
+
+	//If the passed signal is not in polar form, make a copy and convert it to polar coordinates
+	if(signalCopy->type != POLAR)
+	{
+		signalCopy = FrequencySignalDeepCopy(frequencySignal);
+		FrequencySignalConvertToPolarCoordinates(signalCopy);
+	}
+
+	char filenameBuffer[50];
+	sprintf(filenameBuffer, "TempFrequencySignal%u.txt", tempFreqSignalNumber);
+	tempFreqSignalNumber++;
+
+	FrequencySignalWriteToTextFile(filenameBuffer, signalCopy);
+
+	FILE* gnuplot;
+	gnuplot = popen("gnuplot -persist", "w"); //Linux
+	//gnuplot = popen("/usr/local/bin/gnuplot -persist", "w"); //OSX
+
+	if (gnuplot == NULL)
+		return;
+
+	fprintf(gnuplot, "set xrange[0 : 0.5]\n");
+	fprintf(gnuplot, "set offset graph 0.01, 0.01, 0.01, 0.01\n");
+	fprintf(gnuplot, "set samples %u\n", signalCopy->realSignal->sampleLength);
+	fprintf(gnuplot, "plot \"%s\" using 1:2 title 'Frequency Amplitude' with points pointtype 5 \n", filenameBuffer);
+
+	if(signalCopy != frequencySignal)
+	{
+		delete signalCopy;
+	}
+}
+
+
+void FrequencySignalGraphPhase(FrequencySignal* frequencySignal)
+{
+	FrequencySignal* signalCopy = frequencySignal;
+
+	//If the passed signal is not in polar form, make a copy and convert it to polar coordinates
+	if(signalCopy->type != POLAR)
+	{
+		signalCopy = FrequencySignalDeepCopy(frequencySignal);
+		FrequencySignalConvertToPolarCoordinates(signalCopy);
+	}
+
+	char filenameBuffer[50];
+	sprintf(filenameBuffer, "TempFrequencySignal%u.txt", tempFreqSignalNumber);
+	tempFreqSignalNumber++;
+
+	FrequencySignalWriteToTextFile(filenameBuffer, signalCopy);
+
+	FILE* gnuplot;
+	gnuplot = popen("gnuplot -persist", "w"); //Linux
+	//gnuplot = popen("/usr/local/bin/gnuplot -persist", "w"); //OSX
+
+	if (gnuplot == NULL)
+		return;
+
+	fprintf(gnuplot, "set xrange[0 : 0.5]\n");
+	fprintf(gnuplot, "set offset graph 0.01, 0.01, 0.01, 0.01\n");
+	fprintf(gnuplot, "set samples %u\n", signalCopy->realSignal->sampleLength);
+	fprintf(gnuplot, "plot \"%s\" using 1:3 title 'Frequency Phase' with points pointtype 5 \n", filenameBuffer);
+
+	if(signalCopy != frequencySignal)
+	{
+		delete signalCopy;
+	}
+}
+
+
 
 void FrequencySignalConvertToPolarCoordinates(FrequencySignal* dft)
 {

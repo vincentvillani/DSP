@@ -10,6 +10,14 @@
 
 #include "FrequencySignal.h"
 
+#include <string>
+
+FrequencySignal* FrequencySignalDeepCopy(FrequencySignal* frequencySignal);
+
+void FrequencySignalWriteToTextFile(const std::string filename, const FrequencySignal* frequencySignal);
+void FrequencySignalGraphAmplitude(FrequencySignal* frequencySignal);
+void FrequencySignalGraphPhase(FrequencySignal* frequencySignal);
+
 void FrequencySignalConvertToPolarCoordinates(FrequencySignal* dft);
 void FrequencySignalConvertToRectangularCoordinates(FrequencySignal* dft);
 

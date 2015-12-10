@@ -41,7 +41,7 @@ void WriteSignalToTextFile(const std::string filename, const Signal* signal)
 void GraphSignal(const Signal* signal)
 {
 	char filenameBuffer[50];
-	sprintf(filenameBuffer, "TempGraph%u.txt", tempGraphNumber);
+	sprintf(filenameBuffer, "TempSignal%u.txt", tempGraphNumber);
 	tempGraphNumber++;
 
 	WriteSignalToTextFile(filenameBuffer, signal);
