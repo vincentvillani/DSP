@@ -47,9 +47,9 @@ void GraphSignal(const Signal* signal)
 	WriteSignalToTextFile(filenameBuffer, signal);
 
 	FILE* gnuplot;
-	gnuplot = popen("/usr/local/bin/gnuplot -persist", "w");
+	gnuplot = popen("gnuplot -persist", "w"); //Linux
+	//gnuplot = popen("/usr/local/bin/gnuplot -persist", "w"); //OSX
 
-	//gnuplot = popen("gnuplot -persist", "w");
 	if (gnuplot == NULL)
 		return;
 
