@@ -11,7 +11,10 @@
 #include <cstring>
 #include <iostream>
 #include <stdint.h>
+#include <cstdio>
 
+
+static uint32_t tempGraphNumber = 0;
 
 void WriteSignalToTextFile(const std::string filename, const Signal* signal)
 {
@@ -37,7 +40,11 @@ void WriteSignalToTextFile(const std::string filename, const Signal* signal)
 
 void GraphSignal(const Signal* signal)
 {
-	WriteSignalToTextFile("TempGraphFile.txt", signal);
+	char filenameBuffer[50];
+	sprintf(filenameBuffer, "TempGraph%u.txt", tempGraphNumber);
+	tempGraphNumber++;
+
+	WriteSignalToTextFile(filenameBuffer, signal);
 
 	FILE* gnuplot;
 	gnuplot = popen("gnuplot -persist", "w");
@@ -45,11 +52,10 @@ void GraphSignal(const Signal* signal)
 		return;
 
 	fprintf(gnuplot, "set xrange[0 : %u]\n", signal->sampleLength);
-	fprintf(gnuplot, "set offset graph 0.05, 0.05, 0.10, 0.10\n");
+	fprintf(gnuplot, "set offset graph 0.01, 0.01, 0.01, 0.01\n");
 	fprintf(gnuplot, "set samples %u\n", signal->sampleLength);
-	fprintf(gnuplot, "plot \"%s\" with points pointtype 5  notitle\n", "TempGraphFile.txt");
-
-	//fprintf(gnuplot, "plot \"%s\" with impulses lw 2 notitle, \"%s\" with points pointtype 5  notitle\n ", "TempGraphFile.txt", "TempGraphFile.txt");
+	fprintf(gnuplot, "plot \"%s\" with points pointtype 5  notitle\n", filenameBuffer);
+	//fprintf(gnuplot, "plot \"%s\" with impulses lw 1 notitle\n", "TempGraphFile.txt");
 }
 
 
