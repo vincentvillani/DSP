@@ -16,7 +16,19 @@
 
 static uint32_t tempGraphNumber = 0;
 
-void WriteSignalToTextFile(const std::string filename, const Signal* signal)
+
+Signal* SignalDeepCopy(Signal* signal)
+{
+	Signal* result = new Signal(new float[signal->sampleLength], signal->sampleLength);
+
+	//Make a deep copy of the data
+	memcpy(result->samples, signal->samples, sizeof(float) * signal->sampleLength);
+
+	return result;
+}
+
+
+void SignalWriteToTextFile(const std::string filename, const Signal* signal)
 {
 	FILE* signalFile = fopen(filename.c_str(), "w");
 
@@ -38,13 +50,13 @@ void WriteSignalToTextFile(const std::string filename, const Signal* signal)
 }
 
 
-void GraphSignal(const Signal* signal)
+void SignalGraph(const Signal* signal)
 {
 	char filenameBuffer[50];
 	sprintf(filenameBuffer, "TempSignal%u.txt", tempGraphNumber);
 	tempGraphNumber++;
 
-	WriteSignalToTextFile(filenameBuffer, signal);
+	SignalWriteToTextFile(filenameBuffer, signal);
 
 	FILE* gnuplot;
 	gnuplot = popen("gnuplot -persist", "w"); //Linux
@@ -58,6 +70,15 @@ void GraphSignal(const Signal* signal)
 	fprintf(gnuplot, "set samples %u\n", signal->sampleLength);
 	fprintf(gnuplot, "plot \"%s\" with points pointtype 5  notitle\n", filenameBuffer);
 	//fprintf(gnuplot, "plot \"%s\" with impulses lw 1 notitle\n", "TempGraphFile.txt");
+}
+
+
+void SignalSpectralInversionInPlace(Signal* signal)
+{
+	for(uint32_t i = 1; i < signal->sampleLength; i += 2)
+	{
+		signal->samples[i] = -signal->samples[i];
+	}
 }
 
 

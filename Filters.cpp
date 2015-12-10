@@ -10,6 +10,9 @@
 #include <cmath>
 #include <iostream>
 
+#include "SignalUtility.h"
+#include "Convolution.h"
+
 #define PI 3.14159265359f
 
 Signal* GenerateMovingAverageFilter(uint32_t length)
@@ -79,5 +82,53 @@ Signal* GenerateBlackmanWindowedSincLowPassFilter(uint32_t evenLength, float cut
 
 	return result;
 
+}
+
+
+Signal* GenerateLowPassFilter(uint32_t evenLength, float cutoffFrequency)
+{
+	return GenerateBlackmanWindowedSincLowPassFilter(evenLength, cutoffFrequency);
+}
+
+
+Signal* GenerateHighPassFilter(uint32_t evenLength, float cutoffFrequency)
+{
+	Signal* result = GenerateBlackmanWindowedSincLowPassFilter(evenLength, 0.5f - cutoffFrequency);
+
+	SignalSpectralInversionInPlace(result);
+
+	return result;
+}
+
+
+Signal* GenerateBandPassFilter(uint32_t evenLength, float cutoffFrequencyStart, float cutoffFrequencyEnd)
+{
+	Signal* result;
+
+	Signal* lowPassFilter = GenerateLowPassFilter(evenLength, cutoffFrequencyEnd);
+	Signal* highPassFilter = GenerateHighPassFilter(evenLength, cutoffFrequencyStart);
+
+	result = TimeDomainConvolution(lowPassFilter, highPassFilter);
+
+	delete lowPassFilter;
+	delete highPassFilter;
+
+	return result;
+}
+
+
+Signal* GenerateBandRejectFilter(uint32_t evenLength, float cutoffFrequencyStart, float cutoffFrequencyEnd)
+{
+	Signal* result;
+
+	Signal* lowPassFilter = GenerateLowPassFilter(evenLength, cutoffFrequencyStart);
+	Signal* highPassFilter = GenerateHighPassFilter(evenLength, cutoffFrequencyEnd);
+
+	result = SignalAddition(lowPassFilter, highPassFilter);
+
+	delete lowPassFilter;
+	delete highPassFilter;
+
+	return result;
 }
 

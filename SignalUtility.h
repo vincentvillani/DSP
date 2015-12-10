@@ -15,9 +15,13 @@
 
 #include <string>
 
-void WriteSignalToTextFile(const std::string filename, const Signal* signal);
+Signal* SignalDeepCopy(Signal* signal);
 
-void GraphSignal(const Signal* signal);
+void SignalWriteToTextFile(const std::string filename, const Signal* signal);
+
+void SignalGraph(const Signal* signal);
+
+void SignalSpectralInversionInPlace(Signal* signal);
 
 Signal* SignalAmplify(const Signal* signal, float amplificationCoefficent);
 void SignalAmplifyInPlace(Signal* signal, float amplificationCoefficent);

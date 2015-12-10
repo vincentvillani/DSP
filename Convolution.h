@@ -13,7 +13,8 @@
 
 //Returns a convoluted signal that is fully immersed in the input signal (clips the start and end of the output)
 //CONVOLUTION IN THE TIME DOMAIN
-Signal* TimeDomainConvolution(Signal* inputSignal, Signal* impulseResponse);
+Signal* TimeDomainConvolutionReduced(Signal* inputSignal, Signal* impulseResponse);
+Signal* TimeDomainConvolution(Signal* input, Signal* impulseResponse);
 //FrequencySignal* FrequencyDomainConvolution(FrequencySignal* inputDFT, FrequencySignal* impulseResponse);
 
 

@@ -9,7 +9,7 @@
 
 #include <cstring>
 
-Signal* TimeDomainConvolution(Signal* inputSignal, Signal* impulseResponse)
+Signal* TimeDomainConvolutionReduced(Signal* inputSignal, Signal* impulseResponse)
 {
 	uint32_t firstValidIndex = impulseResponse->sampleLength - 1;
 	//uint32_t lastValidIndex = inputSignal->sampleLength - firstValidIndex;
@@ -48,6 +48,26 @@ Signal* TimeDomainConvolution(Signal* inputSignal, Signal* impulseResponse)
 
 	return signal;
 
+}
+
+
+Signal* TimeDomainConvolution(Signal* inputSignal, Signal* impulseResponse)
+{
+	uint32_t lengthOfOutputSignal = inputSignal->sampleLength + impulseResponse->sampleLength - 1;
+
+	float* outputSamples = new float[lengthOfOutputSignal];
+	memset(outputSamples, 0, sizeof(float) * lengthOfOutputSignal);
+
+
+	for(uint32_t outputIndex = 0; outputIndex < inputSignal->sampleLength; ++outputIndex)
+	{
+		for(uint32_t impulseIndex = 0; impulseIndex < impulseResponse->sampleLength; ++impulseIndex)
+		{
+			outputSamples[outputIndex + impulseIndex] += (inputSignal->samples[outputIndex] * impulseResponse->samples[impulseIndex]);
+		}
+	}
+
+	return new Signal(outputSamples, lengthOfOutputSignal);
 }
 
 
