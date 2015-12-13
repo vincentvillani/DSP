@@ -26,6 +26,7 @@ Signal* GenerateBandPassFilter(uint32_t evenLength, float cutoffFrequencyStart, 
 
 Signal* GenerateBandRejectFilter(uint32_t evenLength, float cutoffFrequencyStart, float cutoffFrequencyEnd);
 
+//evenActualFilterLength needs to be an even number. evenActualFilterLength + 1 is the length of the generated filter
 Signal* ComputeCustomFilterKernel(FrequencySignal* desiredFrequencyResponse);
 
 #endif /* FILTERS_H_ */

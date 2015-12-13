@@ -12,6 +12,7 @@
 
 #include "SignalUtility.h"
 #include "Convolution.h"
+#include "DiscreteFourierTransform.h"
 
 #define PI 3.14159265359f
 
@@ -138,10 +139,13 @@ Signal* ComputeCustomFilterKernel(FrequencySignal* desiredFrequencyResponse)
 	Signal* result;
 
 	//Take the Inverse DFT to get the signal into the time domain
-	//Signal* tempSignal = InverseDFTViaCorrelation(desiredFrequencyResponse);
+	Signal* tempSignal = InverseDFTViaCorrelation(desiredFrequencyResponse);
 
-	//Shift the signal across by signalLength/2
+	//Shift the signal across by signalLength/2 so that the signal is centered at the center
+	SignalShiftInPlace(tempSignal, tempSignal->sampleLength / 2);
 
+	//Multipy it by a blackman window
+	Signal* hammingWindow = WindowGenerateHammingWindow(tempSignal->sampleLength);
 
 	return result;
 }

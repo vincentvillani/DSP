@@ -56,6 +56,7 @@ void SignalGraph(const Signal* signal)
 	sprintf(filenameBuffer, "TempSignal%u.txt", tempGraphNumber);
 	tempGraphNumber++;
 
+
 	SignalWriteToTextFile(filenameBuffer, signal);
 
 	FILE* gnuplot;
@@ -70,6 +71,10 @@ void SignalGraph(const Signal* signal)
 	fprintf(gnuplot, "set samples %u\n", signal->sampleLength);
 	fprintf(gnuplot, "plot \"%s\" with points pointtype 5  notitle\n", filenameBuffer);
 	//fprintf(gnuplot, "plot \"%s\" with impulses lw 1 notitle\n", "TempGraphFile.txt");
+
+	//Deletes the temp file
+	//remove(filenameBuffer);
+
 }
 
 
