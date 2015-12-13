@@ -149,6 +149,7 @@ void SignalShiftInPlace(Signal* signal, uint32_t shiftAmount)
 	if(shiftAmount > signal->sampleLength)
 	{
 		std::cerr << "SignalShiftInPlace: Can't shift more than the length of the signal!" << std::endl;
+		exit(1);
 	}
 
 	float temp;
