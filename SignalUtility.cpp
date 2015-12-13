@@ -60,8 +60,8 @@ void SignalGraph(const Signal* signal)
 	SignalWriteToTextFile(filenameBuffer, signal);
 
 	FILE* gnuplot;
-	gnuplot = popen("gnuplot -persist", "w"); //Linux
-	//gnuplot = popen("/usr/local/bin/gnuplot -persist", "w"); //OSX
+	//gnuplot = popen("gnuplot -persist", "w"); //Linux
+	gnuplot = popen("/usr/local/bin/gnuplot -persist", "w"); //OSX
 
 	if (gnuplot == NULL)
 		return;
@@ -274,6 +274,22 @@ void SignalDerivativeInPlace(Signal* passedSignal)
 	{
 		passedSignal->samples[i] = passedSignal->samples[i] - passedSignal->samples[i - 1];
 	}
+}
+
+
+void SignalAppendZeroes(Signal* signal, uint32_t numberOfZeroes)
+{
+	float* newSamples = new float[signal->sampleLength + numberOfZeroes];
+
+	//Copy the old values across, and set the appended values to zero
+	memcpy(newSamples, signal->samples, sizeof(float) * signal->sampleLength);
+	memset(newSamples + signal->sampleLength, 0, sizeof(float) * numberOfZeroes);
+	signal->sampleLength += numberOfZeroes;
+
+	//Free the old memory
+	delete[] signal->samples;
+
+	signal->samples = newSamples;
 }
 
 

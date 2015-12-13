@@ -10,10 +10,12 @@
 #include "UnitTests.h"
 #include "SignalUnitTests.h"
 #include "DFTUnitTests.h"
+#include "FilterUnitTests.h"
 
 
 void RunAllUnitTests()
 {
+	/*
 	//Signal unit tests
 	Signal_UpdateUnitTest();
 	Signal_ConvolutionUnitTest();
@@ -25,6 +27,10 @@ void RunAllUnitTests()
 	DFTCorrelationUnitTest();
 	DFTCorrelationRoundTripTest();
 	DFTCorrelationRoundTripTestWithPolarCoords();
+	*/
+
+	//Filter unit tests
+	GenerateCustomFilterUnitTest();
 
 	std::cout << "All tests passed!" << std::endl;
 }

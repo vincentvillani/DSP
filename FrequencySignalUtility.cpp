@@ -80,8 +80,8 @@ void FrequencySignalGraphAmplitude(FrequencySignal* frequencySignal)
 	FrequencySignalWriteToTextFile(filenameBuffer, signalCopy);
 
 	FILE* gnuplot;
-	gnuplot = popen("gnuplot -persist", "w"); //Linux
-	//gnuplot = popen("/usr/local/bin/gnuplot -persist", "w"); //OSX
+	//gnuplot = popen("gnuplot -persist", "w"); //Linux
+	gnuplot = popen("/usr/local/bin/gnuplot -persist", "w"); //OSX
 
 	if (gnuplot == NULL)
 		return;

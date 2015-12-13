@@ -45,4 +45,6 @@ void SignalIntegrateInPlace(Signal* passedSignal);
 Signal* SignalDerivative(Signal* passedSignal);
 void SignalDerivativeInPlace(Signal* passedSignal);
 
+void SignalAppendZeroes(Signal* signal, uint32_t numberOfZeroes);
+
 #endif /* SIGNALUTILITY_H_ */

@@ -11,12 +11,14 @@
 #include <iostream>
 
 #include "SignalUtility.h"
+#include "FrequencySignalUtility.h"
 #include "Convolution.h"
 #include "DiscreteFourierTransform.h"
+#include "Window.h"
 
 #define PI 3.14159265359f
 
-Signal* GenerateMovingAverageFilter(uint32_t length)
+Signal* FilterGenerateMovingAverageFilter(uint32_t length)
 {
 	float filterValue = 1.0f / length;
 
@@ -31,7 +33,7 @@ Signal* GenerateMovingAverageFilter(uint32_t length)
 }
 
 
-Signal* GenerateBlackmanWindowedSincLowPassFilter(uint32_t evenLength, float cutoffFrequency)
+Signal* FilterGenerateBlackmanWindowedSincLowPassFilter(uint32_t evenLength, float cutoffFrequency)
 {
 	//Length must be odd so there is a center point with an even number of values on each side (this is done later... (evenLength + 1) )
 	if(evenLength % 2 != 0)
@@ -86,15 +88,15 @@ Signal* GenerateBlackmanWindowedSincLowPassFilter(uint32_t evenLength, float cut
 }
 
 
-Signal* GenerateLowPassFilter(uint32_t evenLength, float cutoffFrequency)
+Signal* FilterGenerateLowPassFilter(uint32_t evenLength, float cutoffFrequency)
 {
-	return GenerateBlackmanWindowedSincLowPassFilter(evenLength, cutoffFrequency);
+	return FilterGenerateBlackmanWindowedSincLowPassFilter(evenLength, cutoffFrequency);
 }
 
 
-Signal* GenerateHighPassFilter(uint32_t evenLength, float cutoffFrequency)
+Signal* FilterGenerateHighPassFilter(uint32_t evenLength, float cutoffFrequency)
 {
-	Signal* result = GenerateBlackmanWindowedSincLowPassFilter(evenLength, 0.5f - cutoffFrequency);
+	Signal* result = FilterGenerateBlackmanWindowedSincLowPassFilter(evenLength, 0.5f - cutoffFrequency);
 
 	SignalSpectralInversionInPlace(result);
 
@@ -102,12 +104,12 @@ Signal* GenerateHighPassFilter(uint32_t evenLength, float cutoffFrequency)
 }
 
 
-Signal* GenerateBandPassFilter(uint32_t evenLength, float cutoffFrequencyStart, float cutoffFrequencyEnd)
+Signal* FilterGenerateBandPassFilter(uint32_t evenLength, float cutoffFrequencyStart, float cutoffFrequencyEnd)
 {
 	Signal* result;
 
-	Signal* lowPassFilter = GenerateLowPassFilter(evenLength, cutoffFrequencyEnd);
-	Signal* highPassFilter = GenerateHighPassFilter(evenLength, cutoffFrequencyStart);
+	Signal* lowPassFilter = FilterGenerateLowPassFilter(evenLength, cutoffFrequencyEnd);
+	Signal* highPassFilter = FilterGenerateHighPassFilter(evenLength, cutoffFrequencyStart);
 
 	result = TimeDomainConvolution(lowPassFilter, highPassFilter);
 
@@ -118,12 +120,12 @@ Signal* GenerateBandPassFilter(uint32_t evenLength, float cutoffFrequencyStart, 
 }
 
 
-Signal* GenerateBandRejectFilter(uint32_t evenLength, float cutoffFrequencyStart, float cutoffFrequencyEnd)
+Signal* FilterGenerateBandRejectFilter(uint32_t evenLength, float cutoffFrequencyStart, float cutoffFrequencyEnd)
 {
 	Signal* result;
 
-	Signal* lowPassFilter = GenerateLowPassFilter(evenLength, cutoffFrequencyStart);
-	Signal* highPassFilter = GenerateHighPassFilter(evenLength, cutoffFrequencyEnd);
+	Signal* lowPassFilter = FilterGenerateLowPassFilter(evenLength, cutoffFrequencyStart);
+	Signal* highPassFilter = FilterGenerateHighPassFilter(evenLength, cutoffFrequencyEnd);
 
 	result = SignalAddition(lowPassFilter, highPassFilter);
 
@@ -134,18 +136,45 @@ Signal* GenerateBandRejectFilter(uint32_t evenLength, float cutoffFrequencyStart
 }
 
 
-Signal* ComputeCustomFilterKernel(FrequencySignal* desiredFrequencyResponse)
+Signal* FilterGenerateCustomFilterKernel(FrequencySignal* desiredFrequencyResponse, uint32_t evenTruncatedLength)
 {
-	Signal* result;
+	if(evenTruncatedLength % 2 != 0)
+	{
+		std::cerr << "Even truncated length should be an even number!" << std::endl;
+	}
+
+	evenTruncatedLength += 1; //So there is an even number of elements on either side of the middle element
+
+	//Convert the desiredFrequency response to rectangular form before continuing
+	if(desiredFrequencyResponse->type == POLAR)
+	{
+		FrequencySignalConvertToRectangularCoordinates(desiredFrequencyResponse);
+	}
 
 	//Take the Inverse DFT to get the signal into the time domain
 	Signal* tempSignal = InverseDFTViaCorrelation(desiredFrequencyResponse);
 
-	//Shift the signal across by signalLength/2 so that the signal is centered at the center
-	SignalShiftInPlace(tempSignal, tempSignal->sampleLength / 2);
+	//SignalGraph(tempSignal);
 
-	//Multipy it by a blackman window
-	Signal* hammingWindow = WindowGenerateHammingWindow(tempSignal->sampleLength);
+	//Shift the signal across by signalLength/2 so that the signal is centered at the center
+	SignalShiftInPlace(tempSignal, evenTruncatedLength / 2);
+	SignalGraph(tempSignal);
+
+	//Generate the Hamming window
+	//Signal* hammingWindow = WindowGenerateHammingWindow(evenTruncatedLength - 1);
+
+	//Compute the filter kernel
+	Signal* result = new Signal(new float[evenTruncatedLength], evenTruncatedLength);
+
+	float twoPI = 2.0f * PI;
+
+	//Multiply the amplitudes of the hamming window by the amplitudes of the real values (sine waves?)
+	for(uint32_t i = 0; i < evenTruncatedLength; ++i)
+	{
+		result->samples[i] = tempSignal->samples[i] * (0.54f - (0.46 * cosf(twoPI * i / (evenTruncatedLength - 1)  ) ) );
+	}
+
+	delete tempSignal;
 
 	return result;
 }

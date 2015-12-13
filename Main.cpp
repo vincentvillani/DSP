@@ -28,12 +28,16 @@
 int main()
 {
 
+	//Signal* customFilter = FilterGenerateCustomFilterKernel();
+	/*
+
 	Signal* bandPassFilter = GenerateBandRejectFilter(500, 0.2f, 0.4f);
 	Signal* shiftedBandPassFilter = SignalDeepCopy(bandPassFilter);
 	SignalShiftInPlace(shiftedBandPassFilter, bandPassFilter->sampleLength / 2);
 
 	SignalGraph(bandPassFilter);
 	SignalGraph(shiftedBandPassFilter);
+
 
 	//FrequencySignal* freqResponse = DFTViaCorrelation(bandPassFilter);
 	//FrequencySignalGraphAmplitude(freqResponse);
@@ -42,6 +46,7 @@ int main()
 	delete bandPassFilter;
 	delete shiftedBandPassFilter;
 	//delete freqResponse;
+	*/
 
 	/*
 
@@ -73,7 +78,7 @@ int main()
 
 	*/
 
-	//RunAllUnitTests();
+	RunAllUnitTests();
 
 	return 0;
 }

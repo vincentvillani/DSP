@@ -9,30 +9,33 @@
 #include "Window.h"
 
 #include <cmath>
+#include <iostream>
 
 #define PI 3.14159265359f
 
 Signal* WindowGenerateHammingWindow(uint32_t evenLength)
 {
-	/*
-	//Has to be an odd number to be symmetrical
-	if(length % 2 != 0)
-	{
 
+	//Has to be an odd number to be symmetrical
+	if(evenLength % 2 != 0)
+	{
+		std::cerr << "WindowGenerateHammingWindow: evenLength is not an even number!" << std::endl;
+		exit(1);
 	}
 
-	Signal* result = new Signal(new float[length], length);
+	//Add one so that the signal is , same number of elements either side of the middle element
+	uint32_t signalLength = evenLength + 1;
 
+	//Calculate the result
+	Signal* result = new Signal(new float[signalLength], signalLength);
 	float twoPI = 2 * PI;
-	uint32_t lengthMinusOne = length - 1;
 
-	for(uint32_t i = 0; i < length; ++i)
+	for(uint32_t i = 0; i < signalLength; ++i)
 	{
-		result->samples[i] = 0.54f - (0.46 * cosf((twoPI * i) / lengthMinusOne));
+		result->samples[i] = 0.54f - (0.46 * cosf((twoPI * i) / evenLength)); //Even length is used here for the hamming window (signalLength -1)
 	}
 
 	return result;
-	*/
 }
 
 

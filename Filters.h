@@ -13,20 +13,20 @@
 
 #include <stdint.h>
 
-Signal* GenerateMovingAverageFilter(uint32_t length);
+Signal* FilterGenerateMovingAverageFilter(uint32_t length);
 
-Signal* GenerateBlackmanWindowedSincLowPassFilter(uint32_t length, float cutoffFrequency);
+Signal* FilterGenerateBlackmanWindowedSincLowPassFilter(uint32_t length, float cutoffFrequency);
 
 //Cutoff frequency is a fraction of the highest signal frequency, from 0.0 to 0.5
-Signal* GenerateLowPassFilter(uint32_t evenLength, float cutoffFrequency);
+Signal* FilterGenerateLowPassFilter(uint32_t evenLength, float cutoffFrequency);
 
-Signal* GenerateHighPassFilter(uint32_t evenLength, float cutoffFrequency);
+Signal* FilterGenerateHighPassFilter(uint32_t evenLength, float cutoffFrequency);
 
-Signal* GenerateBandPassFilter(uint32_t evenLength, float cutoffFrequencyStart, float cutoffFrequencyEnd);
+Signal* FilterGenerateBandPassFilter(uint32_t evenLength, float cutoffFrequencyStart, float cutoffFrequencyEnd);
 
-Signal* GenerateBandRejectFilter(uint32_t evenLength, float cutoffFrequencyStart, float cutoffFrequencyEnd);
+Signal* FilterGenerateBandRejectFilter(uint32_t evenLength, float cutoffFrequencyStart, float cutoffFrequencyEnd);
 
 //evenActualFilterLength needs to be an even number. evenActualFilterLength + 1 is the length of the generated filter
-Signal* ComputeCustomFilterKernel(FrequencySignal* desiredFrequencyResponse);
+Signal* FilterGenerateCustomFilterKernel(FrequencySignal* desiredFrequencyResponse, uint32_t evenTruncatedLength);
 
 #endif /* FILTERS_H_ */
