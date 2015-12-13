@@ -9,6 +9,7 @@
 #define FILTERS_H_
 
 #include "Signal.h"
+#include "FrequencySignal.h"
 
 #include <stdint.h>
 
@@ -25,5 +26,6 @@ Signal* GenerateBandPassFilter(uint32_t evenLength, float cutoffFrequencyStart, 
 
 Signal* GenerateBandRejectFilter(uint32_t evenLength, float cutoffFrequencyStart, float cutoffFrequencyEnd);
 
+Signal* ComputeCustomFilterKernel(FrequencySignal* desiredFrequencyResponse);
 
 #endif /* FILTERS_H_ */

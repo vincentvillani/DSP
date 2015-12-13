@@ -13,5 +13,4 @@ void DFTCorrelationUnitTest();
 void DFTCorrelationRoundTripTest(); //Test doing a DFT and inverse DFT, see if we get the same result we started with
 void DFTCorrelationRoundTripTestWithPolarCoords(); //Same as above but the Inverse DFT function is passed an output in polar coordinates
 
-
 #endif /* DFTUNITTESTS_H_ */

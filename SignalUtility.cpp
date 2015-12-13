@@ -144,6 +144,45 @@ void SignalAdditionInPlace(Signal* signalLHS, const Signal* signalRHS) //Add RHS
 }
 
 
+void SignalShiftInPlace(Signal* signal, uint32_t shiftAmount)
+{
+	if(shiftAmount > signal->sampleLength)
+	{
+		std::cerr << "SignalShiftInPlace: Can't shift more than the length of the signal!" << std::endl;
+	}
+
+	float temp;
+
+	float* first = signal->samples;
+	float* middle = signal->samples + (signal->sampleLength - shiftAmount);
+	float* last = signal->samples + (signal->sampleLength - 1);
+
+	//Start at the middle
+	float* next = middle;
+
+	//Keep going until next equals first
+	while(first != next)
+	{
+		//Swap the two values
+		temp = *next;
+		*next = *first;
+		*first = temp;
+
+		//Increment the pointers by one
+		first += 1;
+		next += 1;
+
+		//If we've reached the end of the array, set next back to the middle
+		//Keep going until first 'catches up' to next
+		if(next == last)
+			next = middle;
+		//If first has reached the middle value, push middle up to next
+		else if(first == middle)
+			middle = next;
+	}
+
+}
+
 
 float SignalToNoiseRatio(const Histogram* histogram)
 {

@@ -29,12 +29,19 @@ int main()
 {
 
 	Signal* bandPassFilter = GenerateBandRejectFilter(500, 0.2f, 0.4f);
+	Signal* shiftedBandPassFilter = SignalDeepCopy(bandPassFilter);
+	SignalShiftInPlace(shiftedBandPassFilter, bandPassFilter->sampleLength / 2);
 
-	FrequencySignal* freqResponse = DFTViaCorrelation(bandPassFilter);
-	FrequencySignalGraphAmplitude(freqResponse);
+	SignalGraph(bandPassFilter);
+	SignalGraph(shiftedBandPassFilter);
+
+	//FrequencySignal* freqResponse = DFTViaCorrelation(bandPassFilter);
+	//FrequencySignalGraphAmplitude(freqResponse);
+
 
 	delete bandPassFilter;
-	delete freqResponse;
+	delete shiftedBandPassFilter;
+	//delete freqResponse;
 
 	/*
 

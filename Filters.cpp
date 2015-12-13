@@ -132,3 +132,17 @@ Signal* GenerateBandRejectFilter(uint32_t evenLength, float cutoffFrequencyStart
 	return result;
 }
 
+
+Signal* ComputeCustomFilterKernel(FrequencySignal* desiredFrequencyResponse)
+{
+	Signal* result;
+
+	//Take the Inverse DFT to get the signal into the time domain
+	//Signal* tempSignal = InverseDFTViaCorrelation(desiredFrequencyResponse);
+
+	//Shift the signal across by signalLength/2
+
+
+	return result;
+}
+

@@ -25,5 +25,4 @@ void FrequencySignalAmplifyInPlace(FrequencySignal* dft, float amplifcationCoeff
 void FrequencySignalAdditionInPlace(FrequencySignal* dftLHS, FrequencySignal* dftRHS);
 
 
-
 #endif /* DFTUTILITY_H_ */
