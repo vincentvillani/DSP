@@ -151,6 +151,9 @@ void SignalAdditionInPlace(Signal* signalLHS, const Signal* signalRHS) //Add RHS
 
 void SignalShiftInPlace(Signal* signal, uint32_t shiftAmount)
 {
+	if(shiftAmount == 0)
+		return;
+
 	if(shiftAmount > signal->sampleLength)
 	{
 		std::cerr << "SignalShiftInPlace: Can't shift more than the length of the signal!" << std::endl;

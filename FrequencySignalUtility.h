@@ -24,5 +24,7 @@ void FrequencySignalConvertToRectangularCoordinates(FrequencySignal* dft);
 void FrequencySignalAmplifyInPlace(FrequencySignal* dft, float amplifcationCoefficent);
 void FrequencySignalAdditionInPlace(FrequencySignal* dftLHS, FrequencySignal* dftRHS);
 
+void FrequencySignalAppendZeroes(FrequencySignal* freqSignal, uint32_t numberOfZeroes);
+
 
 #endif /* DFTUTILITY_H_ */

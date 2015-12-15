@@ -116,8 +116,8 @@ void FrequencySignalGraphPhase(FrequencySignal* frequencySignal)
 	FrequencySignalWriteToTextFile(filenameBuffer, signalCopy);
 
 	FILE* gnuplot;
-	gnuplot = popen("gnuplot -persist", "w"); //Linux
-	//gnuplot = popen("/usr/local/bin/gnuplot -persist", "w"); //OSX
+	//gnuplot = popen("gnuplot -persist", "w"); //Linux
+	gnuplot = popen("/usr/local/bin/gnuplot -persist", "w"); //OSX
 
 	if (gnuplot == NULL)
 		return;
@@ -252,5 +252,32 @@ void FrequencySignalOutputAdditionInPlace(FrequencySignal* dftLHS, FrequencySign
 		dftLHS->realSignal->samples[i] += dftRHS->realSignal->samples[i];
 		dftLHS->imaginarySignal->samples[i] += dftRHS->imaginarySignal->samples[i];
 	}
+}
+
+
+void FrequencySignalAppendZeroes(FrequencySignal* freqSignal, uint32_t numberOfZeroes)
+{
+
+	float* newMagnitudeArray = new float[freqSignal->realSignal->sampleLength + numberOfZeroes];
+	float* newPhaseArray = new float[freqSignal->imaginarySignal->sampleLength + numberOfZeroes];
+
+	//Copy the old array values over
+	memcpy(newMagnitudeArray, freqSignal->realSignal->samples, sizeof(float) * freqSignal->realSignal->sampleLength);
+	memset(newMagnitudeArray + freqSignal->realSignal->sampleLength, 0, sizeof(float) * freqSignal->realSignal->sampleLength);
+
+	memcpy(newPhaseArray, freqSignal->imaginarySignal->samples, sizeof(float) * freqSignal->imaginarySignal->sampleLength);
+	memset(newPhaseArray + freqSignal->imaginarySignal->sampleLength, 0, sizeof(float) * freqSignal->imaginarySignal->sampleLength);
+
+	//Update the lengths of the signal
+	freqSignal->realSignal->sampleLength += numberOfZeroes;
+	freqSignal->imaginarySignal->sampleLength += numberOfZeroes;
+
+	//Delete the old arrays and point the signal to the new arrays
+	delete[] freqSignal->realSignal->samples;
+	delete[] freqSignal->imaginarySignal->samples;
+
+	freqSignal->realSignal->samples = newMagnitudeArray;
+	freqSignal->imaginarySignal->samples = newPhaseArray;
+
 }
 

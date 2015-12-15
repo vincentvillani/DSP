@@ -141,9 +141,13 @@ Signal* FilterGenerateCustomFilterKernel(FrequencySignal* desiredFrequencyRespon
 	if(evenTruncatedLength % 2 != 0)
 	{
 		std::cerr << "Even truncated length should be an even number!" << std::endl;
+		exit(1);
 	}
-
-	evenTruncatedLength += 1; //So there is an even number of elements on either side of the middle element
+	else if(evenTruncatedLength > (desiredFrequencyResponse->realSignal->sampleLength * 2) - 1)
+	{
+		std::cerr << "desiredFrequencyResponse length should be greater than evenTruncatedLength" << std::endl;
+		exit(1);
+	}
 
 	//Convert the desiredFrequency response to rectangular form before continuing
 	if(desiredFrequencyResponse->type == POLAR)
@@ -156,23 +160,32 @@ Signal* FilterGenerateCustomFilterKernel(FrequencySignal* desiredFrequencyRespon
 
 	//SignalGraph(tempSignal);
 
-	//Shift the signal across by signalLength/2 so that the signal is centered at the center
-	SignalShiftInPlace(tempSignal, evenTruncatedLength / 2);
-	SignalGraph(tempSignal);
+	//Shift the signal across by evenTruncatedLength/2 so that the signal is centered at the center
+	SignalShiftInPlace(tempSignal, evenTruncatedLength/2);
+	//SignalGraph(tempSignal);
 
 	//Generate the Hamming window
 	//Signal* hammingWindow = WindowGenerateHammingWindow(evenTruncatedLength - 1);
 
 	//Compute the filter kernel
-	Signal* result = new Signal(new float[evenTruncatedLength], evenTruncatedLength);
+	Signal* result = new Signal(new float[evenTruncatedLength + 1], evenTruncatedLength + 1); //So there is an even number of elements on either side of the middle element
 
 	float twoPI = 2.0f * PI;
+	float fourPI = 4.0f * PI;
 
 	//Multiply the amplitudes of the hamming window by the amplitudes of the real values (sine waves?)
-	for(uint32_t i = 0; i < evenTruncatedLength; ++i)
+	for(uint32_t i = 0; i < evenTruncatedLength + 1; ++i)
 	{
-		result->samples[i] = tempSignal->samples[i] * (0.54f - (0.46 * cosf(twoPI * i / (evenTruncatedLength - 1)  ) ) );
+		//Times the truncated signal by the hamming window
+		result->samples[i] = tempSignal->samples[i] * (0.54f - (0.46 * cosf(twoPI * i / (evenTruncatedLength)  ) ) );
+
+		//Times the truncated signal by the blackman window
+		//result->samples[i] = tempSignal->samples[i] * (0.42659f - (0.49656f * cosf((twoPI * i) / (evenTruncatedLength)) +
+			//	0.076849f * cosf((fourPI * i) / (evenTruncatedLength))));
 	}
+
+	Signal* stepResponse = SignalIntegrate(result);
+	SignalGraph(stepResponse);
 
 	delete tempSignal;
 
