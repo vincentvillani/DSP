@@ -21,8 +21,10 @@
 
 #define PI 3.14159265359f
 
+
 void GenerateCustomFilterUnitTest()
 {
+
 	uint32_t desiredFreqResponseLength = 513;
 
 	FrequencySignal* desiredFrequencyResponse = new FrequencySignal(new Signal(new float[desiredFreqResponseLength], desiredFreqResponseLength),
@@ -92,10 +94,16 @@ void GenerateCustomFilterUnitTest()
 	//Calculate the filter kernel from the desired freq response
 	Signal* customFilter = FilterGenerateCustomFilterKernel(desiredFrequencyResponse, 400);
 	SignalAppendZeroes(customFilter, 1024);
+
+	SignalShiftInPlace(customFilter, 1424 - 198);
+	SignalGraph(customFilter);
+
 	//Move the kernel to the freq domain to see its actual freq response
 	FrequencySignal* filterFreq = DFTViaCorrelation(customFilter);
+
 	//Convert it to polar coords
 	FrequencySignalConvertToPolarCoordinates(filterFreq);
+
 	//Graph it
 	FrequencySignalGraphAmplitude(filterFreq);
 	FrequencySignalGraphPhase(filterFreq);

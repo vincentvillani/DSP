@@ -85,14 +85,16 @@ void DFTCorrelationUnitTest()
 
 void DFTCorrelationRoundTripTest()
 {
+	printf("HI!\n");
+
 	const uint32_t sampleNum = 64;
 	const uint32_t frequency = 2;
 	float* inputSignalData = new float[sampleNum];
 
-	//Calculate input signal, a sin wave with frequency 3
+	//Calculate input signal, a cos wave with frequency 3
 	for(uint32_t i = 0; i < sampleNum; ++i)
 	{
-		inputSignalData[i] = cosf( (2 * PI * frequency * i) / sampleNum);
+		inputSignalData[i] = cosf( (2 * PI * frequency * i) / sampleNum) + 1.0f;
 	}
 
 	Signal* inputSignal = new Signal(inputSignalData, sampleNum);

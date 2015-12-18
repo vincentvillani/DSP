@@ -23,11 +23,12 @@ void RunAllUnitTests()
 	Signal_DerivativeUnitTest();
 	Signal_IntegrationAndDerivativeRoundTripUnitTest();
 
+
 	//DFT unit tests
 	DFTCorrelationUnitTest();
 	DFTCorrelationRoundTripTest();
 	DFTCorrelationRoundTripTestWithPolarCoords();
-	*/
+*/
 
 	//Filter unit tests
 	GenerateCustomFilterUnitTest();

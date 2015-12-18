@@ -177,15 +177,17 @@ Signal* FilterGenerateCustomFilterKernel(FrequencySignal* desiredFrequencyRespon
 	for(uint32_t i = 0; i < evenTruncatedLength + 1; ++i)
 	{
 		//Times the truncated signal by the hamming window
-		result->samples[i] = tempSignal->samples[i] * (0.54f - (0.46 * cosf(twoPI * i / (evenTruncatedLength)  ) ) );
+		result->samples[i] = tempSignal->samples[i] * (0.54f - (0.46f * cosf(twoPI * i / (evenTruncatedLength)  ) ) );
 
 		//Times the truncated signal by the blackman window
 		//result->samples[i] = tempSignal->samples[i] * (0.42659f - (0.49656f * cosf((twoPI * i) / (evenTruncatedLength)) +
 			//	0.076849f * cosf((fourPI * i) / (evenTruncatedLength))));
 	}
 
-	Signal* stepResponse = SignalIntegrate(result);
-	SignalGraph(stepResponse);
+	//SignalGraph(result);
+
+	//Signal* stepResponse = SignalIntegrate(result);
+	//SignalGraph(stepResponse);
 
 	delete tempSignal;
 
